@@ -1,20 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:movies/utils/utils.dart';
+import 'package:movies/features/movie_details/bloc/movie_detail_bloc.dart';
+import 'package:movies/features/utils/utils.dart';
 
-class DetailScreen extends StatelessWidget {
+class MovieDetailScreen extends StatefulWidget {
   final String title;
   final Image image;
   final String overview;
   final String releaseDate;
   final String vote;
-  const DetailScreen(
-      {super.key,
-      required this.title,
-      required this.image,
-      required this.overview,
-      required this.releaseDate,
-      required this.vote});
+  const MovieDetailScreen({
+    super.key,
+    required this.title,
+    required this.image,
+    required this.overview,
+    required this.releaseDate,
+    required this.vote,
+  });
+
+  @override
+  State<MovieDetailScreen> createState() => _MovieDetailScreenState();
+}
+
+class _MovieDetailScreenState extends State<MovieDetailScreen> {
+  final MovieDetailBloc movieDetailBloc = MovieDetailBloc();
+  @override
+  void initState() {
+    movieDetailBloc.add(MovieDetailInitialEvent());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +47,7 @@ class DetailScreen extends StatelessWidget {
             floating: true,
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
-                title,
+                widget.title,
                 style: GoogleFonts.belleza(
                     fontSize: 17, fontWeight: FontWeight.w600),
               ),
@@ -42,7 +56,7 @@ class DetailScreen extends StatelessWidget {
                   bottomLeft: Radius.circular(24),
                   bottomRight: Radius.circular(24),
                 ),
-                child: image,
+                child: widget.image,
               ),
             ),
           ),
@@ -62,7 +76,7 @@ class DetailScreen extends StatelessWidget {
                     height: h / 30,
                   ),
                   Text(
-                    overview,
+                    widget.overview,
                     style: GoogleFonts.roboto(
                       fontSize: 17,
                       fontWeight: FontWeight.w400,
@@ -94,7 +108,7 @@ class DetailScreen extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                releaseDate,
+                                widget.releaseDate,
                                 style: GoogleFonts.roboto(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
@@ -125,7 +139,7 @@ class DetailScreen extends StatelessWidget {
                                 color: Colors.amber,
                               ),
                               Text(
-                                vote,
+                                widget.vote,
                                 style: GoogleFonts.roboto(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
